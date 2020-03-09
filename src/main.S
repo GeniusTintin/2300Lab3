@@ -18,7 +18,7 @@ main:
 player_1_init:
 @player 1 init code
   nop
-  mov r1, 100
+  mov r1, #100
   @add mana attribute
   mov r2, 40
   @addstamina attribute
@@ -26,14 +26,17 @@ player_1_init:
 player_2_init:
 @player 2 init code
   nop
-  mov r1, 100
+  mov r4, 100
+  beq end_loop
   @add mana attribute
-  mov r2, 40
+  mov r5, 40
+  bvs end_loop
   @addstamina attribute
-  mov r3, 30
-  
+  mov r6, 30
+
 player_1_actions:
 @player 1 action code
+
 player_2_actions:
 @player 2 action code
 
@@ -54,7 +57,7 @@ frenzy:
 
 magic_poison:
   mov r12, 2
-  mls r1, r1, r2, r12 
+  mls r1, r2, r12, r1
 
 strength_from_wearness:
   sub r12, r2, r3
@@ -73,4 +76,8 @@ eye_of_Zardok:
 
   
   b main
+
+end_loop:
+  nop
+  b end_loop
 .size main, .-main
