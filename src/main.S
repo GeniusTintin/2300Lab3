@@ -4,6 +4,7 @@
 .type main, %function
 main:
 
+b start
   @flag setting practice
   movs r0, 0x80000000
   @set the negative flag
@@ -14,6 +15,11 @@ main:
   cmn r0, 0x81000000
   @set overflow flag
   cmp r0, 1
+
+start:
+  nop
+  mov r0, 1
+  adds r0, 1
 
 player_1_init:
 @player 1 init code
@@ -38,12 +44,14 @@ player_1_actions:
 @player 1 action code
   
   @fireball_1:
-  sub r4, 20
-
+  subs r4, 20
+  bmi end_loop
+  beq end_loop
   @frenzy_1:
-  sub r1, 20
-  add r2, 40
-
+  subs r1, 20
+  adds r2, 40
+  bmi end_loop
+  beq end_loop
   @eye_of_Zardok_1:
   mul r6, r4
   mov r12, 100
@@ -62,17 +70,17 @@ player_2_actions:
 @player 2 action code
   
   @bhealing_potion_2
-  add r4, 50
+  adds r4, 50
 
   @magic_poison_2
   mov r12, 2
   mls r1, r2, r12, r1
 
   @strength_from_wearness_2:
-  sub r12, r5, r6
-  mov r11, 2
+  subs r12, r5, r6
+  movs r11, 2
   mul r12, r11
-  add r4, r12
+  adds r4, r12
 
   bvs end_loop
   bmi end_loop
@@ -83,25 +91,25 @@ player_2_actions:
 
 
 healing_potion_1:
-  add r1, 50
+  adds r1, 50
   @b healing_potion
 
 fireball_1:
-  sub r4, 20
+  subs r4, 20
 
 frenzy_1:
-  sub r1, 20
-  add r2, 40
+  subs r1, 20
+  adds r2, 40
 
 magic_poison_1:
   mov r12, 2
   mls r4, r5, r12, r4
 
 strength_from_wearness_1:
-  sub r12, r2, r3
+  subs r12, r2, r3
   mov r11, 2
   mul r12, r11
-  add r1, r12
+  adds r1, r12
 
 eye_of_Zardok_1:
   mul r6, r4
@@ -115,25 +123,25 @@ eye_of_Zardok_1:
 
 
 healing_potion_2:
-  add r4, 50
+  adds r4, 50
   @b healing_potion
 
 fireball_2:
-  sub r1, 20
+  subs r1, 20
 
 frenzy_2:
-  sub r4, 20
-  add r5, 40
+  subs r4, 20
+  adds r5, 40
 
 magic_poison_2:
   mov r12, 2
   mls r1, r2, r12, r1
 
 strength_from_wearness_2:
-  sub r12, r5, r6
+  subs r12, r5, r6
   mov r11, 2
   mul r12, r11
-  add r4, r12
+  adds r4, r12
 
 eye_of_Zardok_2:
   mul r3, r1
